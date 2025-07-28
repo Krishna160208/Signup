@@ -9,6 +9,11 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
+    if (!Name || !Email || !Password) {
+      alert('Please fill all fields');
+      return;
+    }
+
     e.preventDefault();
     axios
       .post('http://localhost:3001/register', {
@@ -31,36 +36,28 @@ function Signup() {
       >
         <h2 className='text-center mb-4'>Create Account</h2>
         <form onSubmit={handleSubmit}>
-          <div className='form-group mb-3'>
-            <label>
-              <strong>Name</strong>
-            </label>
+          <div className='form-group'>
             <input
               type='text'
-              className='form-control'
+              className='form-control mb-3'
               placeholder='Enter Name'
+              value={Name}
               onChange={(e) => setName(e.target.value)}
             />
-          </div>
-          <div className='form-group mb-3'>
-            <label>
-              <strong>Email</strong>
-            </label>
+
             <input
               type='email'
-              className='form-control'
+              className='form-control mb-3'
               placeholder='Enter Email'
+              value={Email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
-          <div className='form-group mb-4'>
-            <label>
-              <strong>Password</strong>
-            </label>
+
             <input
               type='password'
-              className='form-control'
+              className='form-control mb-3'
               placeholder='Enter Password'
+              value={Password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>

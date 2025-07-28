@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Await, Link, useNavigate } from 'react-router-dom';
 
 function Login() {
   const [Email, setEmail] = useState('');
@@ -8,18 +8,25 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
+    if (!Email || !Password) {
+        alert('Please enter both email and password');
+        return;
+    }
     e.preventDefault();
+    console.log('🚀 Login data:', { Email, Password });
+
     axios
       .post('http://localhost:3001/login', { email: Email, password: Password })
       .then((result) => {
         console.log('✅ Login Result:', result.data);
-        if (result.data === 'Sucess') {
+        if (result.data === 'Success') {
           navigate('/home');
         } else {
           alert(result.data);
         }
       })
       .catch((err) => console.error('❌ Login Error:', err));
+
   };
 
   return (
@@ -31,27 +38,23 @@ function Login() {
         <h2 className='text-center mb-4'>Login</h2>
         <form onSubmit={handleSubmit}>
           <div className='form-group mb-3'>
-            <label>
-              <strong>Email</strong>
-            </label>
             <input
               type='email'
               className='form-control'
               placeholder='Enter Email'
+              value={Email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
-          <div className='form-group mb-4'>
-            <label>
-              <strong>Password</strong>
-            </label>
+
             <input
               type='password'
               className='form-control'
               placeholder='Enter Password'
+              value={Password}
               onChange={(e) => setPassword(e.target.value)}
-            />
+              />
           </div>
+
           <button type='submit' className='btn btn-primary w-100'>
             Login
           </button>
